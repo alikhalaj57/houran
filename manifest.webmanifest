@@ -1,6 +1,6 @@
 {
-  "name": "MyHolding — سیستم عامل مدیریت هلدینگ",
-  "short_name": "MyHolding",
+  "name": "XIAOMI",
+  "short_name": "XIAOMI",
   "dir": "rtl",
   "lang": "fa",
   "start_url": "./index.html",
@@ -9,7 +9,16 @@
   "background_color": "#0b0f16",
   "theme_color": "#101418",
   "icons": [
-    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
