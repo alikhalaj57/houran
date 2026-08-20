@@ -159,12 +159,12 @@ tbody tr{cursor:pointer;transition:background .15s}tbody tr:hover{background:var
     <div class="err" id="l_err"></div>
     <button class="btn ac big" id="l_go" onclick="doLogin()">ورود</button>
     <button class="btn big" style="margin-top:8px" onclick="enterDemo()">👀 مشاهده نمایشی (بدون اتصال)</button>
-    <div class="hint" style="text-align:center;margin-top:16px;line-height:2;opacity:.85">💡 ایده‌پرداز: <b>گودرز زابلی</b> &nbsp;·&nbsp; 🛠️ اجرا: <b>علی خلج</b><br><span style="opacity:.6">نسخه 1.1</span></div>
+    <div class="hint" style="text-align:center;margin-top:16px;line-height:2;opacity:.85">💡 ایده‌پرداز: <b>گودرز زابلی</b> &nbsp;·&nbsp; 🛠️ اجرا: <b>علی خلج</b><br><span style="opacity:.6" id="lver"></span></div>
   </div>
 </div>
 
 <div id="app">
-  <aside id="side"><div class="logo"><span class="lgo">⚓</span><span>اسنپ دریایی<small>Snap Marine</small></span></div><nav id="nav"></nav><div class="hint" style="padding:10px 14px;border-top:1px solid var(--line);line-height:1.9">ایده‌پرداز: <b>گودرز زابلی</b><br>اجرا: <b>علی خلج</b></div></aside>
+  <aside id="side"><div class="logo"><span class="lgo">⚓</span><span>اسنپ دریایی<small>Snap Marine</small></span></div><nav id="nav"></nav><div class="hint" style="padding:10px 14px;border-top:1px solid var(--line);line-height:1.9">ایده‌پرداز: <b>گودرز زابلی</b><br>اجرا: <b>علی خلج</b><div id="ver" dir="ltr" style="text-align:right;margin-top:6px;font-family:Consolas,monospace;font-size:11px;opacity:.8"></div></div></aside>
   <div id="main">
     <div id="top">
       <button id="burger" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
@@ -183,6 +183,7 @@ tbody tr{cursor:pointer;transition:background .15s}tbody tr:hover{background:var
 <div id="ovl" onclick="if(event.target===this)closeModal()"><div id="modal" class="glass"></div></div>
 <script>
 /* ================= SCHEMA: field types ================= */
+const VERSION='1.2';const BUILD='2026-08-20';
 const TXT='text',LNG='long',NUM='num',DAT='date',SEL='sel',REL='rel',CHK='chk',URLF='url';
 const ST=['پیش‌نویس','ثبت‌شده','استعلام‌شده','تأیید‌شده','در حال انجام','تکمیل‌شده','لغو‌شده'];
 const f=(k,n,t,x={})=>({k,n,t,...x});
@@ -367,7 +368,7 @@ async function doLogin(){
 }
 async function authAction(){if(demo){demo=false;localStorage.removeItem('sm_demo');}else if(sb){try{await sb.auth.signOut();}catch(e){}}session=null;localStorage.removeItem('sm_authok');location.reload();}
 function enterDemo(){demo=true;localStorage.setItem('sm_demo','1');if(!Object.keys(recs).length)seedDemo();showApp();}
-function showApp(){document.getElementById('login').classList.remove('show');document.getElementById('app').classList.add('show');document.getElementById('demobar').style.display=demo?'block':'none';document.getElementById('who').textContent=myEmail()+' · '+myRole();render();}
+function showApp(){document.getElementById('ver').textContent='Snap Marine v'+VERSION+' · '+BUILD;document.getElementById('login').classList.remove('show');document.getElementById('app').classList.add('show');document.getElementById('demobar').style.display=demo?'block':'none';document.getElementById('who').textContent=myEmail()+' · '+myRole();render();}
 
 /* ---- Boot ---- */
 async function boot(){
@@ -380,7 +381,7 @@ async function boot(){
   setInterval(()=>{if(navigator.onLine)flush();},15000);
 }
 window.addEventListener('online',()=>{flush();pullAll();});
-document.addEventListener('DOMContentLoaded',boot);
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('lver').textContent='نسخه '+VERSION+' · '+BUILD;boot();});
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 <script>
