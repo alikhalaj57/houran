@@ -54,6 +54,8 @@ details{margin:10px 0;font-size:12px}summary{cursor:pointer;color:var(--ac);font
 #side .logo .lgo{width:36px;height:36px;font-size:20px;margin:0;border-radius:9px}
 #side .logo small{display:block;font-size:10.5px;color:var(--tx2);font-weight:400}
 #nav{overflow-y:auto;flex:1;padding:4px 8px 12px}
+.sfoot{padding:10px 16px 12px;font-size:11.5px;color:var(--tx2);border-top:1px solid var(--line);line-height:1.9}
+.sfoot span{display:block;font-size:11px;opacity:.75}
 .nav-h{font-size:11px;color:var(--tx2);font-weight:700;margin:12px 8px 4px;letter-spacing:.3px}
 .nav-m{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:var(--r);cursor:pointer;font-size:12.5px;margin:1px 0;position:relative;transition:background .18s var(--ease)}
 .nav-m:hover{background:var(--hover)}
@@ -159,12 +161,12 @@ tbody tr{cursor:pointer;transition:background .15s}tbody tr:hover{background:var
     <div class="err" id="l_err"></div>
     <button class="btn ac big" id="l_go" onclick="doLogin()">ورود</button>
     <button class="btn big" style="margin-top:8px" onclick="enterDemo()">👀 مشاهده نمایشی (بدون اتصال)</button>
-    <div class="hint" style="text-align:center;margin-top:16px;line-height:2;opacity:.85">💡 ایده‌پرداز: <b>گودرز زابلی</b> &nbsp;·&nbsp; 🛠️ اجرا: <b>علی خلج</b><br><span style="opacity:.6" id="lver"></span></div>
+    <div class="hint" style="text-align:center;margin-top:16px;line-height:2;opacity:.85">ایده‌پرداز: <b>گودرز زابلی</b><br><span style="opacity:.6" id="lver"></span></div>
   </div>
 </div>
 
 <div id="app">
-  <aside id="side"><div class="logo"><span class="lgo">⚓</span><span>اسنپ دریایی<small>Snap Marine</small></span></div><nav id="nav"></nav><div class="hint" style="padding:10px 14px;border-top:1px solid var(--line);line-height:1.9">ایده‌پرداز: <b>گودرز زابلی</b><br>اجرا: <b>علی خلج</b><div id="ver" dir="ltr" style="text-align:right;margin-top:6px;font-family:Consolas,monospace;font-size:11px;opacity:.8"></div></div></aside>
+  <aside id="side"><div class="logo"><span class="lgo">⚓</span><span>اسنپ دریایی<small>Snap Marine</small></span></div><nav id="nav"></nav><div class="sfoot">ایده‌پرداز: گودرز زابلی<span id="ver">Snap Marine</span></div></aside>
   <div id="main">
     <div id="top">
       <button id="burger" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
@@ -183,7 +185,7 @@ tbody tr{cursor:pointer;transition:background .15s}tbody tr:hover{background:var
 <div id="ovl" onclick="if(event.target===this)closeModal()"><div id="modal" class="glass"></div></div>
 <script>
 /* ================= SCHEMA: field types ================= */
-const VERSION='1.2';const BUILD='2026-08-20';
+const VERSION='1.3';const BUILD='2026-08-20';
 const TXT='text',LNG='long',NUM='num',DAT='date',SEL='sel',REL='rel',CHK='chk',URLF='url';
 const ST=['پیش‌نویس','ثبت‌شده','استعلام‌شده','تأیید‌شده','در حال انجام','تکمیل‌شده','لغو‌شده'];
 const f=(k,n,t,x={})=>({k,n,t,...x});
@@ -368,7 +370,7 @@ async function doLogin(){
 }
 async function authAction(){if(demo){demo=false;localStorage.removeItem('sm_demo');}else if(sb){try{await sb.auth.signOut();}catch(e){}}session=null;localStorage.removeItem('sm_authok');location.reload();}
 function enterDemo(){demo=true;localStorage.setItem('sm_demo','1');if(!Object.keys(recs).length)seedDemo();showApp();}
-function showApp(){document.getElementById('ver').textContent='Snap Marine v'+VERSION+' · '+BUILD;document.getElementById('login').classList.remove('show');document.getElementById('app').classList.add('show');document.getElementById('demobar').style.display=demo?'block':'none';document.getElementById('who').textContent=myEmail()+' · '+myRole();render();}
+function showApp(){document.getElementById('ver').textContent='Snap Marine · نسخه '+VERSION;document.getElementById('login').classList.remove('show');document.getElementById('app').classList.add('show');document.getElementById('demobar').style.display=demo?'block':'none';document.getElementById('who').textContent=myEmail()+' · '+myRole();render();}
 
 /* ---- Boot ---- */
 async function boot(){
@@ -381,7 +383,7 @@ async function boot(){
   setInterval(()=>{if(navigator.onLine)flush();},15000);
 }
 window.addEventListener('online',()=>{flush();pullAll();});
-document.addEventListener('DOMContentLoaded',()=>{document.getElementById('lver').textContent='نسخه '+VERSION+' · '+BUILD;boot();});
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('lver').textContent='نسخه '+VERSION;boot();});
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 <script>
@@ -478,6 +480,7 @@ function addUser(){const em=prompt('ایمیل کاربر جدید:');if(!em)ret
 </script>
 <script>
 /* ================= HELPERS ================= */
+function faDate(d=new Date()){const g=o=>new Intl.DateTimeFormat('fa-IR-u-nu-latn',o).format(d);return `${g({weekday:'long'})}، ${g({day:'numeric'})} ${g({month:'long'})} ${g({year:'numeric'})}`;}
 const sum=(rows,k)=>rows.reduce((a,r)=>a+(+r.d[k]||0),0);
 const kpi=(ic,l,v,sub)=>`<div class="kpi glass hv"><span class="ic">${ic}</span><div><div class="l">${l}</div><div class="v">${v}</div>${sub?`<div class="hint">${sub}</div>`:''}</div></div>`;
 const card=(t,body)=>`<div class="sec glass"><h3>${t}</h3>${body}</div>`;
@@ -498,12 +501,12 @@ const viewSoon=(s,m)=>card(`${m.ic} ${esc(s.n)}`,`<p style="color:var(--tx2);lin
 function viewHome(){
   const v=byE('vessel'),fo=byE('fuelorder'),sr=byE('sreq'),tx=byE('txn');
   const open=r=>!/تکمیل|لغو/.test(r.d.status||'');
-  let h=`<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:14px"><div><h1 style="font-size:22px">اسنپ دریایی</h1><div class="hint">پلتفرم جامع خدمات دریایی · Snap Marine</div></div><span class="hint">${new Date().toLocaleDateString('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</span></div>`;
+  let h=`<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:14px"><div><h1 style="font-size:22px">اسنپ دریایی</h1><div class="hint">پلتفرم جامع خدمات دریایی · Snap Marine</div></div><span class="hint" dir="rtl">${faDate()}</span></div>`;
   h+=`<div class="kpis stg">${kpi('🚢','کشتی‌های ثبت‌شده',nf(v.length))}${kpi('⛽','سفارش‌های سوخت باز',nf(fo.filter(open).length),nf(sum(fo,'qty'))+' MT کل')}${kpi('🧾','درخواست‌های خدمات باز',nf(sr.filter(open).length))}${kpi('💳','گردش مالی (USD)',nf(sum(tx,'amount')))}</div>`;
   h+=`<div style="display:grid;grid-template-columns:2fr 1fr;gap:12px" class="stg">${card('📈 تراکنش‌ها به تفکیک ماه',spark(monthly(tx,'date','amount')))}${card('🔔 آخرین اعلان‌ها',byE('notification').slice(-5).reverse().map(n=>`<div class="nav-m" onclick="openForm('notification','${n.id}')"><span>${n.d.kind==='خطر'?'🔴':n.d.kind==='هشدار'?'🟡':'🔵'}</span>${esc(n.d.title)}</div>`).join('')||'<div class="empty">اعلانی نیست</div>')}</div>`;
   h+=`<h3 style="margin:6px 0 10px">ماژول‌های اصلی</h3><div class="mods stg">${MODULES.filter(m=>!m.sup&&m.id!=='M01').map(m=>`<div class="mod glass hv" onclick="go('${m.id}')"><div class="h"><span class="ic" style="background:${m.c}">${m.ic}</span><div><div class="n">${esc(m.n)}</div><div class="s">${esc(m.en)} · ${m.subs.length} زیرماژول</div></div></div><ul>${m.subs.slice(0,4).map(s=>`<li>• ${esc(s.n)}</li>`).join('')}</ul></div>`).join('')}</div>`;
   h+=`<h3 style="margin:6px 0 10px">لایه پشتیبان</h3><div class="mods stg" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))">${MODULES.filter(m=>m.sup).map(m=>`<div class="mod glass hv" style="text-align:center" onclick="go('${m.id}')"><div style="font-size:24px">${m.ic}</div><div class="n" style="font-size:12px">${esc(m.n)}</div></div>`).join('')}</div>`;
-  h+=`<div class="hint" style="text-align:center;margin-top:18px;opacity:.8">اسنپ دریایی · ایده‌پرداز: <b>گودرز زابلی</b> · اجرا: <b>علی خلج</b></div>`;
+  h+=`<div class="hint" style="text-align:center;margin-top:18px;opacity:.8">اسنپ دریایی · ایده‌پرداز: گودرز زابلی</div>`;
   return h;
 }
 
