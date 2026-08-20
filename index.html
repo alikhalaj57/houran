@@ -151,7 +151,7 @@ tbody tr{cursor:pointer;transition:background .15s}tbody tr:hover{background:var
     <label>ایمیل</label><input id="l_email" dir="ltr" type="email" autocomplete="username">
     <label>رمز عبور</label><input id="l_pass" dir="ltr" type="password" autocomplete="current-password">
     <div id="l_passhint" class="hint" style="display:none;margin-top:4px">🔑 رمز حداقل ۸ کاراکتر</div>
-    <details id="l_conn"><summary>⚙️ تنظیمات اتصال (Supabase)</summary>
+    <details id="l_conn"><summary>⚙️ تنظیمات اتصال (Supabase) — از قبل تنظیم شده</summary>
       <label>Supabase URL</label><input id="l_url" dir="ltr" placeholder="https://xxxx.supabase.co">
       <label>Anon Key</label><input id="l_key" dir="ltr" placeholder="eyJ...">
       <div class="hint" style="margin-top:6px">این مقادیر فقط روی همین مرورگر ذخیره می‌شوند. از Supabase → Project Settings → API بردارید.</div>
@@ -159,12 +159,12 @@ tbody tr{cursor:pointer;transition:background .15s}tbody tr:hover{background:var
     <div class="err" id="l_err"></div>
     <button class="btn ac big" id="l_go" onclick="doLogin()">ورود</button>
     <button class="btn big" style="margin-top:8px" onclick="enterDemo()">👀 مشاهده نمایشی (بدون اتصال)</button>
-    <div class="hint" style="text-align:center;margin-top:14px;opacity:.7">نسخه 1.0 · معماری: علی خلج</div>
+    <div class="hint" style="text-align:center;margin-top:16px;line-height:2;opacity:.85">💡 ایده‌پرداز: <b>گودرز زابلی</b> &nbsp;·&nbsp; 🛠️ اجرا: <b>علی خلج</b><br><span style="opacity:.6">نسخه 1.1</span></div>
   </div>
 </div>
 
 <div id="app">
-  <aside id="side"><div class="logo"><span class="lgo">⚓</span><span>اسنپ دریایی<small>Snap Marine</small></span></div><nav id="nav"></nav></aside>
+  <aside id="side"><div class="logo"><span class="lgo">⚓</span><span>اسنپ دریایی<small>Snap Marine</small></span></div><nav id="nav"></nav><div class="hint" style="padding:10px 14px;border-top:1px solid var(--line);line-height:1.9">ایده‌پرداز: <b>گودرز زابلی</b><br>اجرا: <b>علی خلج</b></div></aside>
   <div id="main">
     <div id="top">
       <button id="burger" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
@@ -232,7 +232,7 @@ const E={
 /* ================= MODULES (۱۸ ماژول نمودار درختی) ================= */
 /* هر زیرماژول: {e:'entity'} برای جدول/فرم خودکار، یا {v:'view'} برای صفحه اختصاصی، و n اگر نام متفاوت است */
 const MODULES=[
- {id:'M01',ic:'📊',n:'داشبورد و مدیریت',en:'Dashboard & Management',c:'#0078D4',subs:[{v:'home',n:'نمای کلی (KPI)'},{v:'reports',n:'گزارش‌ها و تحلیل‌ها'},{v:'users',n:'مدیریت کاربران'},{v:'settings',n:'تنظیمات سیستم'},{v:'users',n:'امنیت و دسترسی'},{e:'notification',n:'اطلاع‌رسانی'}]},
+ {id:'M01',ic:'📊',n:'داشبورد و مدیریت',en:'Dashboard & Management',c:'#0078D4',subs:[{v:'home',n:'نمای کلی (KPI)'},{v:'reports',n:'گزارش‌ها و تحلیل‌ها'},{v:'users',n:'مدیریت کاربران'},{v:'settings',n:'تنظیمات سیستم'},{v:'basedata',n:'اطلاعات پایه'},{e:'notification',n:'اطلاع‌رسانی'}]},
  {id:'M02',ic:'⛽',n:'بانکرینگ و سوخت',en:'Bunkering & Fuel',c:'#0063B1',subs:[{e:'fuelprice'},{e:'fuelorder'},{v:'delivery',n:'برنامه‌ریزی تحویل'},{e:'supplier',n:'تأمین‌کنندگان سوخت',flt:{cat:'سوخت'}},{e:'document',n:'e-BDN و اسناد بانکرینگ',flt:{cat:'e-BDN'}},{v:'fuelstats',n:'تحلیل مصرف سوخت'}]},
  {id:'M03',ic:'🛳️',n:'خدمات پیش از ورود',en:'Pre-Arrival Services',c:'#2D7D9A',subs:[{e:'arrival'},{e:'sreq',n:'درخواست اسلاج',flt:{kind:'اسلاج'}},{e:'supplier',n:'تأمین‌کنندگان اسلاج',flt:{cat:'اسلاج/پسماند'}},{v:'portcoord',n:'هماهنگی بندر'},{e:'sreq',n:'پسماند و ضایعات',flt:{kind:'پسماند'}},{e:'document',n:'مجوزها',flt:{cat:'مجوز'}}]},
  {id:'M04',ic:'⚓',n:'یدک‌کش و لایروبی',en:'Tug & Dredging',c:'#038387',subs:[{e:'supplier',n:'تأمین خدمات یدک‌کش',flt:{cat:'یدک‌کش'}},{e:'sreq',n:'درخواست یدک‌کش',flt:{kind:'یدک‌کش'}},{v:'tracking',n:'ردیابی و موقعیت'},{e:'sreq',n:'خدمات لایروبی',flt:{kind:'لایروبی'}},{v:'opsplan',n:'برنامه‌ریزی عملیات'},{v:'reports',n:'سوابق و گزارش‌ها'}]},
@@ -260,7 +260,9 @@ const ROLES=['ادمین','اپراتور','مالک کشتی','تأمین‌ک�
 /* ================= STORE & SYNC ================= */
 let recs={};            // id -> {id,e,d,u,del}
 let sb=null,session=null,rt=null,demo=false;
+const PRESET={url:'https://xvunxihvajojtdbanmfm.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2dW54aWh2YWpvanRkYmFubWZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyMDk2NjgsImV4cCI6MjEwMjc4NTY2OH0.TBCWFvtlfdg_mMzDYJTi2Haxn99JlmjcnkW1Y5wQz3g'};
 const cfg=JSON.parse(localStorage.getItem('sm_cfg')||'{}');
+if(PRESET.url&&!cfg.url){cfg.url=PRESET.url;cfg.key=PRESET.key;}
 const MU='00000000-0000-4000-8000-00000000aaaa'; // رکورد متا: کاربران و نقش‌ها
 let queue=JSON.parse(localStorage.getItem('sm_q')||'[]');
 const uid=()=>crypto.randomUUID();
@@ -500,11 +502,13 @@ function viewHome(){
   h+=`<div style="display:grid;grid-template-columns:2fr 1fr;gap:12px" class="stg">${card('📈 تراکنش‌ها به تفکیک ماه',spark(monthly(tx,'date','amount')))}${card('🔔 آخرین اعلان‌ها',byE('notification').slice(-5).reverse().map(n=>`<div class="nav-m" onclick="openForm('notification','${n.id}')"><span>${n.d.kind==='خطر'?'🔴':n.d.kind==='هشدار'?'🟡':'🔵'}</span>${esc(n.d.title)}</div>`).join('')||'<div class="empty">اعلانی نیست</div>')}</div>`;
   h+=`<h3 style="margin:6px 0 10px">ماژول‌های اصلی</h3><div class="mods stg">${MODULES.filter(m=>!m.sup&&m.id!=='M01').map(m=>`<div class="mod glass hv" onclick="go('${m.id}')"><div class="h"><span class="ic" style="background:${m.c}">${m.ic}</span><div><div class="n">${esc(m.n)}</div><div class="s">${esc(m.en)} · ${m.subs.length} زیرماژول</div></div></div><ul>${m.subs.slice(0,4).map(s=>`<li>• ${esc(s.n)}</li>`).join('')}</ul></div>`).join('')}</div>`;
   h+=`<h3 style="margin:6px 0 10px">لایه پشتیبان</h3><div class="mods stg" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))">${MODULES.filter(m=>m.sup).map(m=>`<div class="mod glass hv" style="text-align:center" onclick="go('${m.id}')"><div style="font-size:24px">${m.ic}</div><div class="n" style="font-size:12px">${esc(m.n)}</div></div>`).join('')}</div>`;
+  h+=`<div class="hint" style="text-align:center;margin-top:18px;opacity:.8">اسنپ دریایی · ایده‌پرداز: <b>گودرز زابلی</b> · اجرا: <b>علی خلج</b></div>`;
   return h;
 }
 
 /* ================= VIEWS ================= */
 const VIEWS={
+ basedata:()=>`<div class="kpis">${[['vessel','🚢'],['port','🏗️'],['supplier','🏢'],['crew','🧑‍✈️'],['product','📦']].map(([e,ic])=>kpi(ic,E[e].n,nf(byE(e).length),`<button class="btn ac sm" style="margin-top:6px" onclick="openForm('${e}')">＋ ثبت</button>`)).join('')}</div>`+['vessel','port','supplier'].map(e=>listView({e,n:E[e].n})).join('')+'<p class="hint">ابتدا کشتی‌ها، بنادر و تأمین‌کنندگان را ثبت کنید؛ بقیه فرم‌ها از همین‌ها استفاده می‌کنند.</p>',
  reports:()=>{const ents=Object.keys(E).map(e=>[E[e].ic+' '+E[e].n,byE(e).length]).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]);
   return card('📊 حجم داده به تفکیک موجودیت',bars(ents))+card('🧾 درخواست‌های خدمات به تفکیک نوع',bars(groupCount(byE('sreq'),'kind'),'var(--teal)'))+card('⛽ سفارش سوخت به تفکیک بندر (MT)',bars((()=>{const g={};byE('fuelorder').forEach(r=>{const p=nameOf(r.d.port);g[p]=(g[p]||0)+(+r.d.qty||0);});return Object.entries(g).sort((a,b)=>b[1]-a[1]);})(),'var(--org)'));},
  users:()=>{if(!isAdmin())return card('🔒 مدیریت کاربران','فقط ادمین به این بخش دسترسی دارد.');const l=usersList();
