@@ -1,24 +1,2 @@
-{
-  "name": "XIAOMI",
-  "short_name": "XIAOMI",
-  "dir": "rtl",
-  "lang": "fa",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#0b0f16",
-  "theme_color": "#101418",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
-}
+{"name":"Snap Marine — اسنپ دریایی","short_name":"Snap Marine","dir":"rtl","lang":"fa","start_url":"./index.html","scope":"./","display":"standalone","background_color":"#F3F3F3","theme_color":"#0078D4",
+"icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}
